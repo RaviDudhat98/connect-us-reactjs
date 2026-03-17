@@ -1,6 +1,8 @@
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { privateRoutes, publicRoutes } from "./Routes";
+
+const AppLayout = lazy(() => import("../components/layout/AppLayout"));
 
 function AppRoutes() {
   return (
@@ -18,16 +20,18 @@ function AppRoutes() {
                 </>
               );
             })}
-            {privateRoutes.map((privateR) => {
-              return (
-                <>
-                  <Route
-                    path={privateR.path}
-                    element={<privateR.component />}
-                  ></Route>
-                </>
-              );
-            })}
+            <Route element={<AppLayout />}>
+              {privateRoutes.map((privateR) => {
+                return (
+                  <>
+                    <Route
+                      path={privateR.path}
+                      element={<privateR.component />}
+                    ></Route>
+                  </>
+                );
+              })}
+            </Route>
           </Routes>
         </Suspense>
       </BrowserRouter>
