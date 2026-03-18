@@ -13,20 +13,24 @@ import ConnectUsLogo from "../base/ConnectUsLogo";
 import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import BadgeIcon from "@mui/icons-material/Badge";
 import { useDispatch } from "react-redux";
 import { setAuthMode } from "../../app/slices/authSlice";
 import { AuthModes } from "../../utils/Enums";
 
-function Login() {
+function Registration() {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
+    name: "",
     email: "",
     password: "",
   });
 
   const [errors, setErrors] = useState({
+    name: "",
+
     email: "",
     password: "",
   });
@@ -39,7 +43,16 @@ function Login() {
   };
 
   const validate = () => {
-    const newErrors = { email: "", password: "" };
+    const newErrors = {
+      name: "",
+      email: "",
+      password: "",
+    };
+
+    // Name validation
+    if (!form.name) {
+      newErrors.name = "Name is required";
+    }
 
     // Email validation
     if (!form.email) {
@@ -58,7 +71,7 @@ function Login() {
 
     setErrors(newErrors);
 
-    return !newErrors.email && !newErrors.password;
+    return !newErrors.name && !newErrors.email && !newErrors.password;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,7 +89,7 @@ function Login() {
           <ConnectUsLogo />
         </div>
         <h3 className="text-black font-semibold text-3xl">ConnectUs</h3>
-        <span className="text-gray-600 text-sm">Sign in to continue</span>
+        <span className="text-gray-600 text-sm">Sign up to continue</span>
         <div className="login-container mt-10">
           <Box
             className="login-form flex flex-col justify-center gap-5"
@@ -85,6 +98,31 @@ function Login() {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
+            <TextField
+              value={form.name}
+              onChange={handleChange}
+              error={!!errors.name}
+              helperText={errors.name}
+              sx={{
+                "& .MuiInputBase-root": { borderRadius: "12px" },
+              }}
+              required
+              id="name-input"
+              name="name"
+              label="Name"
+              autoComplete="off"
+              placeholder="Enter your name"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <BadgeIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+
             <TextField
               value={form.email}
               onChange={handleChange}
@@ -150,21 +188,14 @@ function Login() {
                 },
               }}
             />
-            <div className="flex justify-end ">
-              <span
-                className="text-blue-500 text-xs font-semibold cursor-pointer"
-                onClick={() => dispatch(setAuthMode(AuthModes.FORGOT_PASSWORD))}
-              >
-                Forgot Password?
-              </span>
-            </div>
+
             <div className="">
               <Button
                 type="submit"
                 variant="contained"
                 className="bg-blue-500! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
               >
-                Sign In
+                Sign Up
               </Button>
             </div>
           </Box>
@@ -185,13 +216,13 @@ function Login() {
           </div>
           <div className="mt-4">
             <span className="text-gray-600 text-sm">
-              Don't have an account?
+              Already have an account?
             </span>
             <span
               className="mx-1 text-blue-500 font-semibold! text-sm cursor-pointer"
-              onClick={() => dispatch(setAuthMode(AuthModes.SIGN_UP))}
+              onClick={() => dispatch(setAuthMode(AuthModes.SIGN_IN))}
             >
-              Sign Up
+              Sign In
             </span>
           </div>
         </div>
@@ -200,4 +231,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Registration;
