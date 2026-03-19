@@ -16,9 +16,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useDispatch } from "react-redux";
 import { setAuthMode } from "../../app/slices/authSlice";
 import { AuthModes } from "../../utils/Enums";
+import { useNavigate } from "react-router";
 
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
@@ -67,6 +69,7 @@ function Login() {
     if (validate()) {
       console.log("Form Data:", form);
     }
+    navigate(`/chat/`);
   };
 
   return (
