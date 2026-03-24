@@ -1,11 +1,11 @@
 import { Outlet } from "react-router";
-import SideBar from "./AppBar";
+import AppSidebar from "./AppBar";
 
 const AppLayout = () => {
   return (
-    <div className="app-layout h-full">
-      <SideBar />
-      <main className="main-content mt-16 ml-15 h-[calc(100vh-64px)]">
+    <div className="app-layout">
+      <AppSidebar />
+      <main className="app-main">
         <Outlet />
       </main>
     </div>

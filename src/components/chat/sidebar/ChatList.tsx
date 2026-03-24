@@ -1,17 +1,18 @@
 import { useNavigate, useParams } from "react-router";
 import ChatItem from "./ChatItem";
-
-const chats = [
-  { id: 1, name: "George Alan", message: "I'll take it.", time: "4:30 PM" },
-  { id: 2, name: "Uber Cars", message: "Your ride is here", time: "4:30 PM" },
-];
+import EmptyState from "./EmptyState";
+import { chats } from "../../../data/mockData";
 
 const ChatList = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  if (chats.length === 0) {
+    return <EmptyState />;
+  }
+
   return (
-    <div className="flex flex-col gap-1">
+    <div className="chat-list">
       {chats.map((chat) => (
         <ChatItem
           key={chat.id}

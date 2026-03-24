@@ -18,9 +18,7 @@ function Authentication() {
 
   return (
     <>
-      <div className="bg-white border rounded-2xl shadow px-8 py-6 w-[90%] md:w-[30%] ld:w-[25%]">
-        <AuthComponent />
-      </div>
+      <AuthComponent />
     </>
   );
 }

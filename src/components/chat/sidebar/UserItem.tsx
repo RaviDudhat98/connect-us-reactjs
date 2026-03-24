@@ -1,29 +1,25 @@
 import Avatar from "./Avatar";
+import type { User } from "../../../data/mockData";
 
-type Props = {
-  name: string;
-  role?: string;
+type Props = User & {
   active?: boolean;
   onClick: () => void;
 };
 
-const UserItem = ({ name, role, active, onClick }: Props) => {
+const UserItem = ({ name, isOnline, active, onClick, bio, lastSeen }: Props) => {
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-3 p-3 cursor-pointer rounded-lg ${active ? "bg-blue-100 dark:bg-blue-900" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+      className={`user-item ${active ? "active" : ""}`}
     >
-      <Avatar name={name} />
+      <Avatar name={name} isOnline={isOnline} />
 
-      <div className="flex-1">
-        <p className="font-medium">{name}</p>
+      <div className="user-item-info">
+        <p className="user-item-name">{name}</p>
+        <p className="user-item-status">
+          {isOnline ? bio || "Online" : lastSeen ? `Last seen ${lastSeen}` : "Offline"}
+        </p>
       </div>
-
-      {role && (
-        <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
-          {role}
-        </span>
-      )}
     </div>
   );
 };

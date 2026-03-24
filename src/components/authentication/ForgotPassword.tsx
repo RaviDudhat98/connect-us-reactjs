@@ -48,8 +48,8 @@ function ForgotPassword() {
         <div className="flex justify-center items-center my-2">
           <ConnectUsLogo />
         </div>
-        <h3 className="text-black font-semibold text-3xl">ConnectUs</h3>
-        <span className="text-gray-600 text-sm">Forgot password</span>
+        <h3 className="text-chat-text-primary font-semibold text-3xl">ConnectUs</h3>
+        <span className="text-chat-text-secondary text-sm">Forgot password</span>
         <div className="login-container mt-10">
           <Box
             className="login-form flex flex-col justify-center gap-5"
@@ -63,9 +63,6 @@ function ForgotPassword() {
               onChange={handleChange}
               error={!!errors.email}
               helperText={errors.email}
-              sx={{
-                "& .MuiInputBase-root": { borderRadius: "12px" },
-              }}
               required
               id="email-input"
               name="email"
@@ -76,7 +73,7 @@ function ForgotPassword() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <MailOutlineIcon />
+                      <MailOutlineIcon sx={{ color: "var(--chat-text-muted)" }} />
                     </InputAdornment>
                   ),
                 },
@@ -87,7 +84,7 @@ function ForgotPassword() {
               <Button
                 type="submit"
                 variant="contained"
-                className="bg-blue-500! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
+                className="bg-(--chat-accent)! hover:bg-(--chat-accent-hover)! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
               >
                 Send email
               </Button>

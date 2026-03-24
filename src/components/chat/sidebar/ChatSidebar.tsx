@@ -1,27 +1,33 @@
 import { useState } from "react";
-import TabsHeader from "./TabsHeader";
 import ChatList from "./ChatList";
 import UserList from "./UserList";
+import BottomTabs from "./BottomTabs";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const ChatSidebar = () => {
   const [tab, setTab] = useState(0);
 
+  const tabTitles = ["Chats", "Users"];
+
   return (
-    <div className="w-full md:w-88 h-full border-r border-gray-300 flex flex-col bg-primary ">
+    <div className="chat-sidebar">
       {/* Header */}
-      <div className="flex items-center justify-between p-2 border-b border-gray-300">
-        <h2 className="text-lg font-semibold">Chats</h2>
-        <MoreVertIcon className="cursor-pointer" />
+      <div className="sidebar-header">
+        <h2>{tabTitles[tab]}</h2>
+        <div className="sidebar-header-actions">
+          <button className="sidebar-header-btn" aria-label="More options">
+            <MoreVertIcon sx={{ fontSize: 22 }} />
+          </button>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <TabsHeader value={tab} onChange={setTab} />
-
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto p-2">
+      {/* Scrollable Content */}
+      <div className="sidebar-content">
         {tab === 0 ? <ChatList /> : <UserList />}
       </div>
+
+      {/* Bottom Tabs */}
+      <BottomTabs value={tab} onChange={setTab} />
     </div>
   );
 };

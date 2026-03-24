@@ -88,8 +88,8 @@ function Registration() {
         <div className="flex justify-center items-center my-2">
           <ConnectUsLogo />
         </div>
-        <h3 className="text-black font-semibold text-3xl">ConnectUs</h3>
-        <span className="text-gray-600 text-sm">Sign up to continue</span>
+        <h3 className="text-chat-text-primary font-semibold text-3xl">ConnectUs</h3>
+        <span className="text-chat-text-secondary text-sm">Sign up to continue</span>
         <div className="login-container mt-10">
           <Box
             className="login-form flex flex-col justify-center gap-5"
@@ -103,9 +103,6 @@ function Registration() {
               onChange={handleChange}
               error={!!errors.name}
               helperText={errors.name}
-              sx={{
-                "& .MuiInputBase-root": { borderRadius: "12px" },
-              }}
               required
               id="name-input"
               name="name"
@@ -116,7 +113,7 @@ function Registration() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <BadgeIcon />
+                      <BadgeIcon sx={{ color: "var(--chat-text-muted)" }} />
                     </InputAdornment>
                   ),
                 },
@@ -128,9 +125,6 @@ function Registration() {
               onChange={handleChange}
               error={!!errors.email}
               helperText={errors.email}
-              sx={{
-                "& .MuiInputBase-root": { borderRadius: "12px" },
-              }}
               required
               id="email-input"
               name="email"
@@ -141,7 +135,7 @@ function Registration() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <MailOutlineIcon />
+                      <MailOutlineIcon sx={{ color: "var(--chat-text-muted)" }} />
                     </InputAdornment>
                   ),
                 },
@@ -153,9 +147,6 @@ function Registration() {
               onChange={handleChange}
               error={!!errors.password}
               helperText={errors.password}
-              sx={{
-                "& .MuiInputBase-root": { borderRadius: "12px" },
-              }}
               required
               id="password-input"
               name="password"
@@ -167,7 +158,7 @@ function Registration() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <LockOutlineIcon />
+                      <LockOutlineIcon sx={{ color: "var(--chat-text-muted)" }} />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -193,7 +184,7 @@ function Registration() {
               <Button
                 type="submit"
                 variant="contained"
-                className="bg-blue-500! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
+                className="bg-(--chat-accent)! hover:bg-(--chat-accent-hover)! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
               >
                 Sign Up
               </Button>
@@ -201,25 +192,25 @@ function Registration() {
           </Box>
 
           <div className="flex flex-row justify-center my-5 w-full">
-            <Divider className="py-1.5 w-[43%]"></Divider>
-            <span className="mx-3 text-gray-500">OR</span>
-            <Divider className="py-1.5 w-[43%]"></Divider>
+            <Divider className="py-1.5 w-[43%] border-(--chat-border)"></Divider>
+            <span className="mx-3 text-chat-text-muted">OR</span>
+            <Divider className="py-1.5 w-[43%] border-(--chat-border)"></Divider>
           </div>
           <div className=" my-3">
             <Button
               startIcon={<GoogleIcon />}
               variant="outlined"
-              className="text-gray-700! border-gray-300! border-1.5! rounded-[10px]! w-full py-3!  normal-case! font-semibold!"
+              className="text-chat-text-primary! border-(--chat-border)! border-1.5! rounded-[10px]! w-full py-3! normal-case! font-semibold! hover:bg-(--chat-item-hover)!"
             >
               Continue with Google
             </Button>
           </div>
           <div className="mt-4">
-            <span className="text-gray-600 text-sm">
+            <span className="text-chat-text-secondary text-sm">
               Already have an account?
             </span>
             <span
-              className="mx-1 text-blue-500 font-semibold! text-sm cursor-pointer"
+              className="mx-1 text-chat-accent font-semibold! text-sm cursor-pointer hover:underline"
               onClick={() => dispatch(setAuthMode(AuthModes.SIGN_IN))}
             >
               Sign In

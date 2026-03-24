@@ -61,13 +61,13 @@ function ResetPassword() {
 
   return (
     <>
-      <div className="bg-blue-500 h-screen flex justify-center items-center">
-        <div className="bg-white border rounded-2xl shadow px-8 py-6 w-[90%] md:w-[30%] ld:w-[25%]">
+      <div className="bg-(--chat-area-bg) h-screen flex justify-center items-center">
+        <div className="bg-(--chat-sidebar-bg) border border-(--chat-border) rounded-2xl shadow-xl px-8 py-10 w-[90%] md:w-[450px] text-center">
           <div className="flex justify-center items-center my-2">
             <ConnectUsLogo />
           </div>
-          <h3 className="text-black font-semibold text-3xl">ConnectUs</h3>
-          <span className="text-gray-600 text-sm">Reset your password</span>
+          <h3 className="text-chat-text-primary font-semibold text-3xl">ConnectUs</h3>
+          <span className="text-chat-text-secondary text-sm">Reset your password</span>
           <div className="login-container mt-10">
             <Box
               className="login-form flex flex-col justify-center gap-5"
@@ -81,9 +81,6 @@ function ResetPassword() {
                 onChange={handleChange}
                 error={!!errors.password}
                 helperText={errors.password}
-                sx={{
-                  "& .MuiInputBase-root": { borderRadius: "12px" },
-                }}
                 required
                 id="password-input"
                 name="password"
@@ -95,7 +92,7 @@ function ResetPassword() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockOutlineIcon />
+                        <LockOutlineIcon sx={{ color: "var(--chat-text-muted)" }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -121,9 +118,6 @@ function ResetPassword() {
                 onChange={handleChange}
                 error={!!errors.confirmPassword}
                 helperText={errors.confirmPassword}
-                sx={{
-                  "& .MuiInputBase-root": { borderRadius: "12px" },
-                }}
                 required
                 id="confirm-password-input"
                 name="confirm-password"
@@ -135,7 +129,7 @@ function ResetPassword() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockOutlineIcon />
+                        <LockOutlineIcon sx={{ color: "var(--chat-text-muted)" }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -161,7 +155,7 @@ function ResetPassword() {
                 <Button
                   type="submit"
                   variant="contained"
-                  className="bg-blue-500! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
+                  className="bg-(--chat-accent)! hover:bg-(--chat-accent-hover)! rounded-[10px]! w-full py-3! normal-case! font-semibold!"
                 >
                   Send email
                 </Button>

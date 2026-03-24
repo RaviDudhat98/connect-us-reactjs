@@ -1,24 +1,19 @@
 import { useParams } from "react-router";
 import ChatWindow from "./ChatWindow";
 import ChatSidebar from "./sidebar/ChatSidebar";
+import WelcomeScreen from "./WelcomeScreen";
 
 const ChatLayout = () => {
   const { id } = useParams();
 
   return (
-    <div className={`h-full ${id ? "hidden md:flex" : "flex"}`}>
+    <div className={`chat-layout ${id ? "has-active-chat" : ""}`}>
       {/* Sidebar */}
       <ChatSidebar />
 
-      {/* Right Side */}
-      <div className="flex-1 bg-secondary">
-        {id ? (
-          <ChatWindow chatId={id} />
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-400">
-            Select a chat to start messaging
-          </div>
-        )}
+      {/* Right Side - Chat or Welcome */}
+      <div className="chat-window-wrapper">
+        {id ? <ChatWindow chatId={id} /> : <WelcomeScreen />}
       </div>
     </div>
   );

@@ -1,211 +1,162 @@
-import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import {
-  styled,
-  useTheme,
-  type Theme,
-  type CSSObject,
-} from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, {
-  type AppBarProps as MuiAppBarProps,
-} from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Avatar as MuiAvatar,
+} from "@mui/material";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import { useThemeMode } from "../../context/ThemeContext";
 
-const drawerWidth = 240;
+const AppSidebar = () => {
+  const { isDark, toggleTheme } = useThemeMode();
+  const navigate = useNavigate();
+  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
+  const profileOpen = Boolean(profileAnchor);
 
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(["width", "margin"], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    },
-  ],
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
-}));
-
-export default function SideBar() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleProfileClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setProfileAnchor(event.currentTarget);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleProfileClose = () => {
+    setProfileAnchor(null);
+  };
+
+  const handleLogout = () => {
+    handleProfileClose();
+    navigate("/");
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
+    <aside className="app-sidebar">
+      {/* Logo */}
+      <div className="app-sidebar-top">
+        <Tooltip title="ConnectUs" placement="right" arrow>
+          <button
+            className="app-sidebar-btn app-logo-btn"
+            onClick={() => navigate("/chat")}
+            aria-label="Home"
           >
-            <MenuIcon />
-          </IconButton>
-          <h3 className="text-white font-semibold text-2xl">ConnectUs</h3>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
+            <ChatBubbleOutlineIcon sx={{ fontSize: 26 }} />
+          </button>
+        </Tooltip>
+      </div>
+
+      {/* Bottom actions */}
+      <div className="app-sidebar-bottom">
+        <Tooltip
+          title={isDark ? "Light mode" : "Dark mode"}
+          placement="right"
+          arrow
+        >
+          <button
+            className="app-sidebar-btn"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {isDark ? (
+              <LightModeOutlinedIcon sx={{ fontSize: 22 }} />
             ) : (
-              <ChevronLeftIcon />
+              <DarkModeOutlinedIcon sx={{ fontSize: 22 }} />
             )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: "initial",
-                      }
-                    : {
-                        justifyContent: "center",
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: "center",
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: "auto",
-                        },
-                  ]}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    </Box>
+          </button>
+        </Tooltip>
+
+        <Tooltip title="Profile" placement="right" arrow>
+          <button
+            className="app-sidebar-btn profile-btn"
+            onClick={handleProfileClick}
+            aria-label="Profile menu"
+          >
+            <MuiAvatar
+              sx={{
+                width: 34,
+                height: 34,
+                fontSize: 14,
+                fontWeight: 600,
+                bgcolor: "#7C3AED",
+              }}
+            >
+              U
+            </MuiAvatar>
+          </button>
+        </Tooltip>
+
+        {/* Profile Menu */}
+        <Menu
+          anchorEl={profileAnchor}
+          open={profileOpen}
+          onClose={handleProfileClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+          slotProps={{
+            paper: {
+              className: "border border-(--chat-border) shadow-xl bg-(--chat-sidebar-bg)!",
+              sx: {
+                ml: 1,
+                minWidth: 200,
+                borderRadius: 2,
+              },
+            },
+          }}
+        >
+          <div style={{ padding: "12px 16px 8px" }}>
+            <p
+              style={{
+                margin: 0,
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              User
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 12,
+                color: "#9CA3AF",
+              }}
+            >
+              user@connectus.com
+            </p>
+          </div>
+          <Divider />
+          <MenuItem onClick={() => { handleProfileClose(); alert("Profile page coming soon!"); }}>
+            <ListItemIcon>
+              <PersonOutlineIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>View Profile</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={() => { handleProfileClose(); alert("Settings page coming soon!"); }}>
+            <ListItemIcon>
+              <SettingsOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Settings</ListItemText>
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon fontSize="small" sx={{ color: "#EF4444" }} />
+            </ListItemIcon>
+            <ListItemText
+              sx={{ "& .MuiTypography-root": { color: "#EF4444" } }}
+            >
+              Logout
+            </ListItemText>
+          </MenuItem>
+        </Menu>
+      </div>
+    </aside>
   );
-}
+};
+
+export default AppSidebar;

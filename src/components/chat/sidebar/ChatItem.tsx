@@ -1,28 +1,77 @@
 import Avatar from "./Avatar";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import PhotoCameraOutlinedIcon from "@mui/icons-material/PhotoCameraOutlined";
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
+import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
+import type { Chat } from "../../../data/mockData";
 
-type Props = {
-  name: string;
-  message: string;
-  time: string;
+type Props = Chat & {
   active?: boolean;
   onClick: () => void;
 };
 
-const ChatItem = ({ name, message, time, active, onClick }: Props) => {
+const typeIcons: Record<string, React.ReactNode> = {
+  photo: <PhotoCameraOutlinedIcon sx={{ fontSize: 15 }} />,
+  video: <VideocamOutlinedIcon sx={{ fontSize: 15 }} />,
+  audio: <HeadphonesOutlinedIcon sx={{ fontSize: 15 }} />,
+};
+
+const ChatItem = ({
+  name,
+  lastMessage,
+  time,
+  active,
+  onClick,
+  unreadCount,
+  isOnline,
+  lastMessageType,
+  isRead,
+  senderPrefix,
+}: Props) => {
+  const renderMessage = () => {
+    // Show type icon for media messages
+    const typeIcon =
+      lastMessageType && lastMessageType !== "text"
+        ? typeIcons[lastMessageType]
+        : null;
+
+    return (
+      <p className="chat-item-message">
+        {isRead && (
+          <span className="chat-item-read">
+            <DoneAllIcon sx={{ fontSize: 16, color: "#7C3AED" }} />
+          </span>
+        )}
+        {typeIcon && <span className="type-icon">{typeIcon}</span>}
+        {senderPrefix && (
+          <>
+            <span className="sender-prefix">{senderPrefix}:</span>{" "}
+          </>
+        )}
+        {lastMessage}
+      </p>
+    );
+  };
+
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-3 p-3 cursor-pointer rounded-lg
-        ${active ? "bg-blue-100 dark:bg-blue-900" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+      className={`chat-item ${active ? "active" : ""}`}
     >
-      <Avatar name={name} />
+      <Avatar name={name} isOnline={isOnline} />
 
-      <div className="flex-1">
-        <p className="font-medium">{name}</p>
-        <p className="text-sm text-gray-500 truncate">{message}</p>
+      <div className="chat-item-content">
+        <div className="chat-item-top">
+          <p className="chat-item-name">{name}</p>
+          <span className="chat-item-time">{time}</span>
+        </div>
+        <div className="chat-item-bottom">
+          {renderMessage()}
+          {unreadCount && unreadCount > 0 && (
+            <span className="unread-badge">{unreadCount}</span>
+          )}
+        </div>
       </div>
-
-      <span className="text-xs text-gray-400">{time}</span>
     </div>
   );
 };
